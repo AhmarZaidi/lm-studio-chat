@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Banter",
-    "slug": "Banter",
+    "name": "LM Chat",
+    "slug": "lm-chat",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "banter",
+    "scheme": "lm-chat",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
