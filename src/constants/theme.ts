@@ -1,53 +1,141 @@
 /**
- * Below are the colors that are used in the app. The colors are defined in the light and dark mode.
- * There are many other ways to style your app. For example, [Nativewind](https://www.nativewind.dev/), [Tamagui](https://tamagui.dev/), [unistyles](https://reactnativeunistyles.vercel.app), etc.
+ * Theme constants for consistent styling across the app.
+ * Designed to be easily extensible for dark mode and custom themes.
  */
-
-import { Platform } from 'react-native';
-
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
 
 export const Colors = {
   light: {
-    text: '#11181C',
-    background: '#fff',
-    tint: tintColorLight,
+    // Primary colors
+    primary: '#007AFF',
+    primaryLight: '#E5F2FF',
+    
+    // Background colors
+    background: '#F8F9FA',
+    surface: '#FFFFFF',
+    surfaceSecondary: '#F1F3F4',
+    
+    // Text colors
+    text: '#1A1A1A',
+    textSecondary: '#666666',
+    textTertiary: '#999999',
+    
+    // Status colors
+    success: '#34C759',
+    successLight: '#E8F8EC',
+    warning: '#FF9500',
+    warningLight: '#FFF4E5',
+    error: '#FF3B30',
+    errorLight: '#FFEBEA',
+    info: '#007AFF',
+    infoLight: '#E5F2FF',
+    
+    // Border colors
+    border: '#E5E5E5',
+    borderLight: '#F0F0F0',
+    
+    // Platform specific
+    youtube: '#FF0000',
+    instagram: '#E4405F',
+    
+    // Legacy support
+    tint: '#007AFF',
     icon: '#687076',
     tabIconDefault: '#687076',
-    tabIconSelected: tintColorLight,
+    tabIconSelected: '#007AFF',
   },
   dark: {
-    text: '#ECEDEE',
-    background: '#151718',
-    tint: tintColorDark,
+    primary: '#0A84FF',
+    primaryLight: '#1C3A5E',
+    background: '#000000',
+    surface: '#1C1C1E',
+    surfaceSecondary: '#2C2C2E',
+    text: '#FFFFFF',
+    textSecondary: '#ABABAB',
+    textTertiary: '#666666',
+    success: '#30D158',
+    successLight: '#1A3D2A',
+    warning: '#FF9F0A',
+    warningLight: '#3D2E0A',
+    error: '#FF453A',
+    errorLight: '#3D1A18',
+    info: '#0A84FF',
+    infoLight: '#1C3A5E',
+    border: '#38383A',
+    borderLight: '#2C2C2E',
+    youtube: '#FF0000',
+    instagram: '#E4405F',
+    tint: '#FFFFFF',
     icon: '#9BA1A6',
     tabIconDefault: '#9BA1A6',
-    tabIconSelected: tintColorDark,
+    tabIconSelected: '#FFFFFF',
   },
 };
 
-export const Fonts = Platform.select({
-  ios: {
-    /** iOS `UIFontDescriptorSystemDesignDefault` */
-    sans: 'system-ui',
-    /** iOS `UIFontDescriptorSystemDesignSerif` */
-    serif: 'ui-serif',
-    /** iOS `UIFontDescriptorSystemDesignRounded` */
-    rounded: 'ui-rounded',
-    /** iOS `UIFontDescriptorSystemDesignMonospaced` */
-    mono: 'ui-monospace',
+export const Spacing = {
+  xs: 4,
+  sm: 8,
+  md: 12,
+  lg: 16,
+  xl: 20,
+  xxl: 24,
+  xxxl: 32,
+};
+
+export const BorderRadius = {
+  sm: 6,
+  md: 10,
+  lg: 14,
+  xl: 20,
+  full: 999,
+};
+
+export const FontSize = {
+  xs: 11,
+  sm: 13,
+  md: 15,
+  lg: 17,
+  xl: 20,
+  xxl: 24,
+  xxxl: 28,
+  title: 34,
+};
+
+export const FontWeight = {
+  regular: '400' as const,
+  medium: '500' as const,
+  semibold: '600' as const,
+  bold: '700' as const,
+  heavy: '800' as const,
+};
+
+export const Shadow = {
+  sm: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.05,
+    shadowRadius: 2,
+    elevation: 1,
   },
-  default: {
-    sans: 'normal',
-    serif: 'serif',
-    rounded: 'normal',
-    mono: 'monospace',
+  md: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  web: {
-    sans: "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif",
-    serif: "Georgia, 'Times New Roman', serif",
-    rounded: "'SF Pro Rounded', 'Hiragino Maru Gothic ProN', Meiryo, 'MS PGothic', sans-serif",
-    mono: "SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+  lg: {
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
   },
-});
+};
+
+// Status color mapping
+export const StatusColors: Record<string, { bg: string; text: string }> = {
+  pending: { bg: Colors.light.warningLight, text: Colors.light.warning },
+  processing: { bg: Colors.light.infoLight, text: Colors.light.info },
+  done: { bg: Colors.light.successLight, text: Colors.light.success },
+  error: { bg: Colors.light.errorLight, text: Colors.light.error },
+};
