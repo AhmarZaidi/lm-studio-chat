@@ -9,7 +9,7 @@ export const SETUP_CONTENT = {
   SUBTITLE: 'Connect to your local LM Studio server',
   ENDPOINT_LABEL: 'Server Endpoint',
   ENDPOINT_PLACEHOLDER: 'http://192.168.56.1:1234',
-  TEST_BUTTON: 'Test Connection',
+  TEST_BUTTON: 'Connect',
   CONNECTING: 'Connecting...',
   
   INSTRUCTIONS_TITLE: 'Setup Instructions',

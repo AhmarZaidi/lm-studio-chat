@@ -18,16 +18,27 @@ export class HealthCheckService {
   }
 
   /**
-   * Perform health check by fetching models
+   * Perform health check by fetching models with short timeout
    */
   async check(signal?: AbortSignal): Promise<HealthCheckResult> {
     const startTime = Date.now();
 
     try {
+      // Create a short timeout for health check (5 seconds)
+      const timeoutController = new AbortController();
+      const timeoutId = setTimeout(() => timeoutController.abort(), 5000);
+
+      // Combine timeout with any provided signal
+      const combinedSignal = signal
+        ? this.combineAbortSignals(signal, timeoutController.signal)
+        : timeoutController.signal;
+
       const response = await this.client.get<{ data: any[] }>(
         '/v1/models',
-        signal
+        combinedSignal
       );
+
+      clearTimeout(timeoutId);
 
       const latency = Date.now() - startTime;
       const modelsAvailable = response.data?.data?.length || 0;
@@ -51,15 +62,23 @@ export class HealthCheckService {
   }
 
   /**
-   * Quick connectivity check (faster than full health check)
+   * Combine multiple abort signals
    */
-  async ping(signal?: AbortSignal): Promise<boolean> {
-    try {
-      const result = await this.check(signal);
-      return result.isHealthy;
-    } catch {
-      return false;
+  private combineAbortSignals(...signals: AbortSignal[]): AbortSignal {
+    const controller = new AbortController();
+
+    for (const signal of signals) {
+      if (signal.aborted) {
+        controller.abort();
+        break;
+      }
+
+      signal.addEventListener('abort', () => controller.abort(), {
+        once: true,
+      });
     }
+
+    return controller.signal;
   }
 
   /**

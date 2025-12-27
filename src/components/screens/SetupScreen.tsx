@@ -3,7 +3,7 @@
  * Initial setup screen for connecting to LM Studio
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -35,8 +35,18 @@ export function SetupScreen() {
   const { setSetupComplete } = useApp();
   const haptics = useHaptics();
 
+  // Initialize with saved endpoint or default
   const [endpointInput, setEndpointInput] = useState(settings.serverEndpoint);
   const [validationError, setValidationError] = useState<string | null>(null);
+
+  /**
+   * Update input when settings load
+   */
+  useEffect(() => {
+    if (settings.serverEndpoint) {
+      setEndpointInput(settings.serverEndpoint);
+    }
+  }, [settings.serverEndpoint]);
 
   /**
    * Handle test connection button press
@@ -59,7 +69,7 @@ export function SetupScreen() {
     await updateEndpoint(trimmedEndpoint);
 
     // Test connection
-    const success = await testConnection(trimmedEndpoint);
+    const success = await testConnection(trimmedEndpoint, false);
 
     if (success) {
       haptics.success();

@@ -3,7 +3,7 @@
  * LM Studio connection management context
  */
 
-import React, { createContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useState, ReactNode } from 'react';
 import { ModelInfo } from '@/src/types';
 import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '@/src/constants';
 import { Snackbar_Compat as Snackbar } from '@/src/utils/snackbar';
@@ -16,7 +16,7 @@ interface ConnectionContextType {
   endpoint: string;
   availableModels: ModelInfo[];
   error: string | null;
-  testConnection: (endpointUrl: string) => Promise<boolean>;
+  testConnection: (endpointUrl: string, silent?: boolean) => Promise<boolean>;
   checkConnection: () => Promise<boolean>;
   setEndpoint: (endpoint: string) => void;
   fetchModels: () => Promise<void>;
@@ -40,12 +40,15 @@ export function ConnectionProvider({ children }: ConnectionProviderProps) {
   /**
    * Test connection to LM Studio server
    */
-  const testConnection = async (endpointUrl: string): Promise<boolean> => {
+  const testConnection = async (
+    endpointUrl: string,
+    silent: boolean = false
+  ): Promise<boolean> => {
     setIsChecking(true);
     setError(null);
 
     try {
-      const client = createLMStudioClient(endpointUrl);
+      const client = createLMStudioClient(endpointUrl, 5000); // 5 second timeout
       const healthService = createHealthCheckService(client);
       
       const result = await healthService.check();
@@ -59,10 +62,13 @@ export function ConnectionProvider({ children }: ConnectionProviderProps) {
         // Fetch models after successful connection
         await fetchModelsInternal(endpointUrl);
         
-        Snackbar.show({
-          text: SUCCESS_MESSAGES.CONNECTION_SUCCESS,
-          duration: Snackbar.LENGTH_SHORT,
-        });
+        if (!silent) {
+          Snackbar.show({
+            text: SUCCESS_MESSAGES.CONNECTION_SUCCESS,
+            duration: Snackbar.LENGTH_SHORT,
+            type: 'success',
+          });
+        }
         
         return true;
       } else {
@@ -74,18 +80,24 @@ export function ConnectionProvider({ children }: ConnectionProviderProps) {
       let errorMessage = ERROR_MESSAGES.CONNECTION_FAILED;
       
       if (err instanceof Error) {
-        errorMessage = err.message;
+        if (err.name === 'AbortError' || err.message.includes('timeout')) {
+          errorMessage = ERROR_MESSAGES.CONNECTION_TIMEOUT;
+        } else {
+          errorMessage = err.message;
+        }
       }
       
       setError(errorMessage);
       setIsConnected(false);
       setAvailableModels([]);
       
-      Snackbar.show({
-        text: errorMessage,
-        duration: Snackbar.LENGTH_LONG,
-        type: 'error',
-      });
+      if (!silent) {
+        Snackbar.show({
+          text: errorMessage,
+          duration: Snackbar.LENGTH_LONG,
+          type: 'error',
+        });
+      }
       
       return false;
     } finally {
@@ -105,7 +117,7 @@ export function ConnectionProvider({ children }: ConnectionProviderProps) {
    */
   const fetchModelsInternal = async (endpointUrl: string) => {
     try {
-      const client = createLMStudioClient(endpointUrl);
+      const client = createLMStudioClient(endpointUrl, 5000);
       const response = await client.get<{ data: ModelInfo[] }>(
         '/v1/models'
       );
