@@ -84,6 +84,7 @@ export function ConnectionProvider({ children }: ConnectionProviderProps) {
       Snackbar.show({
         text: errorMessage,
         duration: Snackbar.LENGTH_LONG,
+        type: 'error',
       });
       
       return false;
