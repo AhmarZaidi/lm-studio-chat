@@ -1,72 +1,117 @@
 /**
- * Theme constants for consistent styling across the app.
- * Designed to be easily extensible for dark mode and custom themes.
+ * src/constants/theme.ts
+ * Theme constants matching LM Studio's visual design
  */
 
 export const Colors = {
   light: {
     // Primary colors
-    primary: '#007AFF',
-    primaryLight: '#E5F2FF',
+    primary: '#2563EB',
+    primaryLight: '#DBEAFE',
     
     // Background colors
-    background: '#F8F9FA',
-    surface: '#FFFFFF',
-    surfaceSecondary: '#F1F3F4',
+    background: '#FFFFFF',
+    surface: '#F9FAFB',
+    surfaceSecondary: '#F3F4F6',
+    overlay: 'rgba(0, 0, 0, 0.5)',
     
     // Text colors
-    text: '#1A1A1A',
-    textSecondary: '#666666',
-    textTertiary: '#999999',
+    text: '#111827',
+    textSecondary: '#6B7280',
+    textTertiary: '#9CA3AF',
+    textInverse: '#FFFFFF',
+    
+    // Message bubble colors
+    userMessageBg: '#2563EB',
+    userMessageText: '#FFFFFF',
+    assistantMessageBg: '#F3F4F6',
+    assistantMessageText: '#111827',
     
     // Status colors
-    success: '#34C759',
-    successLight: '#E8F8EC',
-    warning: '#FF9500',
-    warningLight: '#FFF4E5',
-    error: '#FF3B30',
-    errorLight: '#FFEBEA',
-    info: '#007AFF',
-    infoLight: '#E5F2FF',
+    success: '#10B981',
+    successLight: '#D1FAE5',
+    warning: '#F59E0B',
+    warningLight: '#FEF3C7',
+    error: '#EF4444',
+    errorLight: '#FEE2E2',
+    info: '#3B82F6',
+    infoLight: '#DBEAFE',
     
     // Border colors
-    border: '#E5E5E5',
-    borderLight: '#F0F0F0',
+    border: '#E5E7EB',
+    borderLight: '#F3F4F6',
     
-    // Platform specific
-    youtube: '#FF0000',
-    instagram: '#E4405F',
+    // Input colors
+    inputBackground: '#FFFFFF',
+    inputBorder: '#D1D5DB',
+    inputFocusBorder: '#2563EB',
+    
+    // Panel colors
+    panelBackground: '#FFFFFF',
+    panelBorder: '#E5E7EB',
+    
+    // Icon colors
+    icon: '#6B7280',
+    iconActive: '#2563EB',
     
     // Legacy support
-    tint: '#007AFF',
-    icon: '#687076',
-    tabIconDefault: '#687076',
-    tabIconSelected: '#007AFF',
+    tint: '#2563EB',
+    tabIconDefault: '#9CA3AF',
+    tabIconSelected: '#2563EB',
   },
   dark: {
-    primary: '#0A84FF',
-    primaryLight: '#1C3A5E',
-    background: '#000000',
-    surface: '#1C1C1E',
-    surfaceSecondary: '#2C2C2E',
+    // Primary colors
+    primary: '#3B82F6',
+    primaryLight: '#1E3A5F',
+    
+    // Background colors - matching LM Studio dark theme
+    background: '#0D0D0D',
+    surface: '#1A1A1A',
+    surfaceSecondary: '#262626',
+    overlay: 'rgba(0, 0, 0, 0.75)',
+    
+    // Text colors
     text: '#FFFFFF',
-    textSecondary: '#ABABAB',
-    textTertiary: '#666666',
-    success: '#30D158',
-    successLight: '#1A3D2A',
-    warning: '#FF9F0A',
-    warningLight: '#3D2E0A',
-    error: '#FF453A',
-    errorLight: '#3D1A18',
-    info: '#0A84FF',
-    infoLight: '#1C3A5E',
-    border: '#38383A',
-    borderLight: '#2C2C2E',
-    youtube: '#FF0000',
-    instagram: '#E4405F',
-    tint: '#FFFFFF',
-    icon: '#9BA1A6',
-    tabIconDefault: '#9BA1A6',
+    textSecondary: '#A3A3A3',
+    textTertiary: '#737373',
+    textInverse: '#0D0D0D',
+    
+    // Message bubble colors
+    userMessageBg: '#3B82F6',
+    userMessageText: '#FFFFFF',
+    assistantMessageBg: '#262626',
+    assistantMessageText: '#FFFFFF',
+    
+    // Status colors
+    success: '#10B981',
+    successLight: '#064E3B',
+    warning: '#F59E0B',
+    warningLight: '#78350F',
+    error: '#EF4444',
+    errorLight: '#7F1D1D',
+    info: '#3B82F6',
+    infoLight: '#1E3A5F',
+    
+    // Border colors
+    border: '#404040',
+    borderLight: '#262626',
+    
+    // Input colors
+    inputBackground: '#1A1A1A',
+    inputBorder: '#404040',
+    inputFocusBorder: '#3B82F6',
+    
+    // Panel colors
+    panelBackground: '#1A1A1A',
+    panelBorder: '#404040',
+    
+    // Icon colors
+    icon: '#A3A3A3',
+    iconActive: '#3B82F6',
+    
+    // Legacy support
+    tint: '#3B82F6',
+    tabIconDefault: '#737373',
     tabIconSelected: '#FFFFFF',
   },
 };
@@ -126,16 +171,23 @@ export const Shadow = {
   lg: {
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.12,
     shadowRadius: 8,
     elevation: 4,
   },
 };
 
-// Status color mapping
-export const StatusColors: Record<string, { bg: string; text: string }> = {
-  pending: { bg: Colors.light.warningLight, text: Colors.light.warning },
-  processing: { bg: Colors.light.infoLight, text: Colors.light.info },
-  done: { bg: Colors.light.successLight, text: Colors.light.success },
-  error: { bg: Colors.light.errorLight, text: Colors.light.error },
+// Animation timings
+export const Animation = {
+  fast: 150,
+  normal: 250,
+  slow: 350,
+};
+
+// Layout dimensions
+export const Layout = {
+  sidePanelWidth: 280,
+  maxMessageWidth: 600,
+  inputMinHeight: 44,
+  inputMaxHeight: 120,
 };
